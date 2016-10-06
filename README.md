@@ -22,11 +22,9 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   ```bash
   Get /v1/info
   ```
-
   Return the information of the system.
 
   Example response body:
-
   ```bash
   {
     "diapi": "SAPbobsCOM90",
