@@ -92,9 +92,8 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   ```
 
   Example script by curl:
-  ```bash
-  curl -u admin:secret -X GET -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/info
-  ```
+
+  *curl -u admin:secret -X GET -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/info*
 
 #### OrdersAPI
   ```
