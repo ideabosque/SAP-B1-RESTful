@@ -24,13 +24,17 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
 ## Prerequisites
   1. Install Python 2.7.12 for Windows 64 bits.
+
   (https://www.python.org/ftp/python/2.7.12/python-2.7.12.amd64.msi)
 
-  2. Install Python for Windows Extensions (pywin32-220.win-amd64-py2.7.exe) (https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win-amd64-py2.7.exe/download)
+  2. Install Python for Windows Extensions (pywin32-220.win-amd64-py2.7.exe)
+
+  (https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win-amd64-py2.7.exe/download)
 
 
 ## Installation
   1. Download and decompress the packages from the following url.
+
   https://github.com/ideabosque/SAP-B1-RESTful/zipball/0.0.1
 
   2. Install the required Python packages by pip.
@@ -409,3 +413,5 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   ```bash
   curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/shipments -d '{"num": "1", "columns": [ "DocDueDate", "CardName"], "params": {"DocDate": {"op": ">=", "value": "2015-01-01"}}, "itemcolumns": ["BaseDocNum", "Price", "ShipDate"]}'
   ```
+
+  Feel free to [create a GitHub issue](https://github.com/ideabosque/SAP-B1-RESTful/issues/new) or [send us an email](mailto:ideabosque@gmail.com) for support regarding this application.
