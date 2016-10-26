@@ -1,6 +1,7 @@
 # SAP B1 RESTful
 =====================
 
+
 ## Synopsis
 The python flask application is top on the SAP B1 DI API interface to provide the RESTful capability with the following functions.
   1. Show the system information.
@@ -20,17 +21,24 @@ The python flask application is top on the SAP B1 DI API interface to provide th
     - SAP B1 DI: insert and update any business objects such as Order, Delivery, AR Invoice and Downpayment Invoice.
     - mssql: read data only directly from MS SQL Server.
 
+
 ## Prerequisites
-  1. Install Python 2.7.12 for Windows 64 bits (https://www.python.org/ftp/python/2.7.12/python-2.7.12.amd64.msi).
+  1. Install Python 2.7.12 for Windows 64 bits.
+  (https://www.python.org/ftp/python/2.7.12/python-2.7.12.amd64.msi)
+
   2. Install Python for Windows Extensions (pywin32-220.win-amd64-py2.7.exe) (https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win-amd64-py2.7.exe/download)
+
 
 ## Installation
   1. Download and decompress the packages from the following url.
   https://github.com/ideabosque/SAP-B1-RESTful/zipball/0.0.1
+
   2. Install the required Python packages by pip.
+
   ```
   pip install -r requirements.txt
   ```
+
 
 ## Configuration and Launch
 
