@@ -33,7 +33,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
 
 ## Installation
-  1. Download and decompress the packages from the following url.
+  1. Download and decompress the package from the following url.
 
   https://github.com/ideabosque/SAP-B1-RESTful/zipball/0.0.1
 
@@ -138,9 +138,8 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   ```
 
   Example script by curl:
-  ```bash
-  curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/orders -d '{"num": "1", "columns": ["DocNum", "CardName", "DocDate", "Address", "Address2"], "params": {"DocDate": {"op": ">=","value": "2016-01-01"}}}'
-  ```
+
+  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/orders -d '{"num": "1", "columns": ["DocNum", "CardName", "DocDate", "Address", "Address2"], "params": {"DocDate": {"op": ">=","value": "2016-01-01"}}}'*
 
 #### OrderAPI
   ```
@@ -239,9 +238,8 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   ```
 
   Example script by curl:
-  ```bash
-  curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/order -d '{"doc_due_date": "2016-12-12", "card_code": "C20000", "expenses_freightname": "Freight", "expenses_linetotal": "2", "expenses_taxcode": "Exempt", "transport_name": "Fedex ON", "payment_method": "Incoming BT 02", "fe_order_id": "00000002", "billto_firstname": "John", "billto_lastname": "Smith", "billto_email": "john.smith@xyz.net", "billto_companyname": "", "billto_city": "Los Angeles", "billto_country": "US", "billto_county": "", "billto_state": "CA", "billto_address": "3650 McClintock Avenue", "billto_zipcode": "90089", "billto_telephone": "(213) 740-8674", "shipto_firstname": "John", "shipto_lastname": "Smith", "shipto_companyname": "", "shipto_city": "Los Angeles", "shipto_country": "US", "shipto_county": "", "shipto_state": "CA", "shipto_address": "3650 McClintock Avenue", "shipto_zipcode": "90089", "shipto_telephone": "(213) 740-8674", "items": [{"itemcode": "I00001", "quantity": "10", "price": "12", "taxcode": "CA", "linetotal": "120"}]}'
-  ```
+
+  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/order -d '{"doc_due_date": "2016-12-12", "card_code": "C20000", "expenses_freightname": "Freight", "expenses_linetotal": "2", "expenses_taxcode": "Exempt", "transport_name": "Fedex ON", "payment_method": "Incoming BT 02", "fe_order_id": "00000002", "billto_firstname": "John", "billto_lastname": "Smith", "billto_email": "john.smith@xyz.net", "billto_companyname": "", "billto_city": "Los Angeles", "billto_country": "US", "billto_county": "", "billto_state": "CA", "billto_address": "3650 McClintock Avenue", "billto_zipcode": "90089", "billto_telephone": "(213) 740-8674", "shipto_firstname": "John", "shipto_lastname": "Smith", "shipto_companyname": "", "shipto_city": "Los Angeles", "shipto_country": "US", "shipto_county": "", "shipto_state": "CA", "shipto_address": "3650 McClintock Avenue", "shipto_zipcode": "90089", "shipto_telephone": "(213) 740-8674", "items": [{"itemcode": "I00001", "quantity": "10", "price": "12", "taxcode": "CA", "linetotal": "120"}]}'*
 
 #### ContactsAPI
   ```
@@ -283,9 +281,8 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   ```
 
   Example script by curl:
-  ```bash
-  curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/contacts -d '{"num": "1", "columns": ["cntctcode", "Name"], "card_code": "C20000", "contact": {"FirstName": "John", "LastName": "Smith", "E_MailL": "john.smith@xyz.net"}}'
-  ```
+
+  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/contacts -d '{"num": "1", "columns": ["cntctcode", "Name"], "card_code": "C20000", "contact": {"FirstName": "John", "LastName": "Smith", "E_MailL": "john.smith@xyz.net"}}'*
 
 #### ContactsAPI
   ```
@@ -324,9 +321,8 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   ```
 
   Example script by curl:
-  ```bash
-  curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/contact -d '{"card_code": "C20000", "contact": {"FirstName": "Joe1", "LastName": "Brown", "Tel1": "(213) 345-6789", "E_MailL": "joe.brown@xzy.net", "Address": "1st st. Los Angles, CA 90089"}}'
-  ```
+
+  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/contact -d '{"card_code": "C20000", "contact": {"FirstName": "Joe1", "LastName": "Brown", "Tel1": "(213) 345-6789", "E_MailL": "joe.brown@xzy.net", "Address": "1st st. Los Angles, CA 90089"}}'*
 
 #### OrderCancelAPI
   ```
@@ -353,9 +349,8 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   ```
 
   Example script by curl:
-  ```bash
-  curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/cancelorder -d '{"fe_order_id": "00000002"}'
-  ```
+
+  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/cancelorder -d '{"fe_order_id": "00000002"}'*
 
 #### ShipmentsAPI
   ```
@@ -410,8 +405,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   ```
 
   Example script by curl:
-  ```bash
-  curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/shipments -d '{"num": "1", "columns": [ "DocDueDate", "CardName"], "params": {"DocDate": {"op": ">=", "value": "2015-01-01"}}, "itemcolumns": ["BaseDocNum", "Price", "ShipDate"]}'
-  ```
+
+  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/shipments -d '{"num": "1", "columns": [ "DocDueDate", "CardName"], "params": {"DocDate": {"op": ">=", "value": "2015-01-01"}}, "itemcolumns": ["BaseDocNum", "Price", "ShipDate"]}'*
 
   Feel free to [create a GitHub issue](https://github.com/ideabosque/SAP-B1-RESTful/issues/new) or [send us an email](mailto:ideabosque@gmail.com) for support regarding this application.
