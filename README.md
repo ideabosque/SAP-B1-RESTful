@@ -408,8 +408,10 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/shipments -d '{"num": "1", "columns": [ "DocDueDate", "CardName"], "params": {"DocDate": {"op": ">=", "value": "2015-01-01"}}, "itemcolumns": ["BaseDocNum", "Price", "ShipDate"]}'*
 
 ## Related Articles
+
   * [How to use "SAP B1 RESTful" to integrate with eCommerce Platforms](http://ideabosque.postach.io/post/how-to-use-sap-b1-restful-to-integrate-with-ecommerce-platforms)
   * [DataWald Overview (Magento 2 <--> SAP B1)](http://ideabosque.postach.io/post/datawald-overview-magento-2-sap-b1)
   * [Orders Sync from Magento 2 to SAP B1 by DataWald](http://ideabosque.postach.io/post/orders-sync-from-magento-2-to-sap-b1-by-datawald)
 
-  Feel free to [create a GitHub issue](https://github.com/ideabosque/SAP-B1-RESTful/issues/new) or [send us an email](mailto:ideabosque@gmail.com) for support regarding this application.
+
+Feel free to [create a GitHub issue](https://github.com/ideabosque/SAP-B1-RESTful/issues/new) or [send us an email](mailto:ideabosque@gmail.com) for support regarding this application.
