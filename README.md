@@ -24,7 +24,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
 ## Prerequisites
 
-  64 bits
+### 64 bits
 
   1. Install Python 2.7.12 for Windows 64 bits.
 
@@ -34,7 +34,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   (https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win-amd64-py2.7.exe/download)
 
-  32 bits
+### 32 bits
 
   1. Install Python 2.7.12 for Windows 32 bits.
 
@@ -60,7 +60,6 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
 ##### Configuration
   We could configure the service at "flask/config.py".
-
   ```
   USERNAME = 'admin'  # The RESTful basic username.
   PASSWORD = 'secret'  # The RESTful basic password.
@@ -78,8 +77,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   B1PASSWORD = 'XXXXXXXX'  # B1 password.
   ```
 
-  LANGUAGE Options
-
+##### LANGUAGE Options
   ```
   ln_Arabic                     =32         # from enum BoSuppLangs
   ln_Chinese                    =15         # from enum BoSuppLangs
