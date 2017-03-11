@@ -114,14 +114,18 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   ```
 
 #### Launch the Server
+
   You could launch the service by the following command at the command prompt.
+
   ```bash
   python flask/manage.py runserver -h 0.0.0.0 -p 5000
   ```
+
   * -h 0.0.0.0 : Bind any IP for the service. (If "-h 127.0.0.1" is used, the service could be accessible only in local.)
   * -p 5000 : Bind the service with port 5000.  Please check the port of Windows Firewall opened for the port.
 
   You could also launch the service by cherrypy.  The setting could be configured at flask/server.py.
+
   ```bash
   python flask/server.py
   ```
