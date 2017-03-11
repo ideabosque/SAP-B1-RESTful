@@ -9,6 +9,7 @@ sapb1Adaptor = SAPB1Adaptor()
 
 def create_app(config_module=None):
     app = Flask(__name__)
+    app.secret_key = "byrkNHdlH6ux"
     app.config.from_object(config_module or
                            os.environ.get('FLASK_CONFIG') or
                            'config')

@@ -6,7 +6,7 @@
 The python flask application is top on the SAP B1 DI API interface to provide the RESTful capability with the following functions.
   1. Show the system information.
   2. Retrieve orders.
-  3. Insert an order.
+  3. Insert orders.
   4. Retrieve contacts of a business partner.
   5. Insert a contact under a business partner.
   6. Retrieve shipments(deliveries).
@@ -23,19 +23,30 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
 
 ## Prerequisites
+  64 bits
+
   1. Install Python 2.7.12 for Windows 64 bits.
 
-  (https://www.python.org/ftp/python/2.7.12/python-2.7.12.amd64.msi)
+  (https://www.python.org/ftp/python/2.7.13/python-2.7.13.amd64.msi)
 
   2. Install Python for Windows Extensions (pywin32-220.win-amd64-py2.7.exe)
 
   (https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win-amd64-py2.7.exe/download)
 
+  32 bits
+
+  1. Install Python 2.7.12 for Windows 32 bits.
+
+  (https://www.python.org/ftp/python/2.7.13/python-2.7.13.msi)
+
+  2. Install Python for Windows Extensions (pywin32-220.win-amd64-py2.7.exe)
+
+  (https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/pywin32-220.win32-py2.7.exe/download)
 
 ## Installation
   1. Download and decompress the package from the following url.
 
-  https://github.com/ideabosque/SAP-B1-RESTful/zipball/0.0.1
+  https://github.com/ideabosque/SAP-B1-RESTful/zipball/0.0.2
 
   2. Install the required Python packages by pip.
 
@@ -65,6 +76,42 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   B1PASSWORD = 'XXXXXXXX'  # B1 password.
   ```
 
+  LANGUAGE Options
+  ```
+  ln_Arabic                     =32         # from enum BoSuppLangs
+  ln_Chinese                    =15         # from enum BoSuppLangs
+  ln_Czech_Cz                   =26         # from enum BoSuppLangs
+  ln_Danish                     =11         # from enum BoSuppLangs
+  ln_Dutch                      =16         # from enum BoSuppLangs
+  ln_English                    =3          # from enum BoSuppLangs
+  ln_English_Cy                 =21         # from enum BoSuppLangs
+  ln_English_Gb                 =8          # from enum BoSuppLangs
+  ln_English_Sg                 =6          # from enum BoSuppLangs
+  ln_Finnish                    =17         # from enum BoSuppLangs
+  ln_French                     =22         # from enum BoSuppLangs
+  ln_German                     =9          # from enum BoSuppLangs
+  ln_Greek                      =18         # from enum BoSuppLangs
+  ln_Hebrew                     =1          # from enum BoSuppLangs
+  ln_Hungarian                  =14         # from enum BoSuppLangs
+  ln_Italian                    =13         # from enum BoSuppLangs
+  ln_Japanese_Jp                =30         # from enum BoSuppLangs
+  ln_Korean_Kr                  =28         # from enum BoSuppLangs
+  ln_Norwegian                  =12         # from enum BoSuppLangs
+  ln_Polish                     =5          # from enum BoSuppLangs
+  ln_Portuguese                 =19         # from enum BoSuppLangs
+  ln_Portuguese_Br              =29         # from enum BoSuppLangs
+  ln_Russian                    =24         # from enum BoSuppLangs
+  ln_Serbian                    =10         # from enum BoSuppLangs
+  ln_Slovak_Sk                  =27         # from enum BoSuppLangs
+  ln_Spanish                    =23         # from enum BoSuppLangs
+  ln_Spanish_Ar                 =2          # from enum BoSuppLangs
+  ln_Spanish_La                 =25         # from enum BoSuppLangs
+  ln_Spanish_Pa                 =7          # from enum BoSuppLangs
+  ln_Swedish                    =20         # from enum BoSuppLangs
+  ln_TrdtnlChinese_Hk           =35         # from enum BoSuppLangs
+  ln_Turkish_Tr                 =31         # from enum BoSuppLangs
+  ```
+
 #### Launch the Server
   You could launch the service by the following command at the command prompt.
   ```bash
@@ -72,6 +119,11 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   ```
   * -h 0.0.0.0 : Bind any IP for the service. (If "-h 127.0.0.1" is used, the service could be accessible only in local.)
   * -p 5000 : Bind the service with port 5000.  Please check the port of Windows Firewall opened for the port.
+
+  You could also launch the service by cherrypy.  The setting could be configured at flask/server.py.
+  ```bash
+  python flask/server.py
+  ```
 
 ## API
 
@@ -93,16 +145,39 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example script by curl:
 
-  *curl -u admin:secret -X GET -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/info*
+  *curl -u admin:secret -X GET -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/info*
+
+#### CodeAPI
+  ```
+  GET /v1/code?type=ExpnsName
+  ```
+  Retrieve codes by type.
+
+  Query Parameters:
+  * type(ExpnsName|TrnspName|PayMethCod|TaxCode): The amount of the records will be contained in the result.
+
+  Example response body:
+  ```javascript
+  [
+    "Freight",
+    "Insurance"
+  ]
+  ```
+
+  Example script by curl:
+
+  *curl -u admin:secret -X GET -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/code?type=ExpnsName*
 
 #### OrdersAPI
   ```
-  POST /v1/orders
+  PUT /v1/orders/fetch?num=1
   ```
   Retrieve orders by parameters.
 
+  Query Parameters:
+  * num: The amount of the records will be contained in the result.
+
   Request Parameters:
-  * num(optional): The amount of the records will be contained in the result.  IF not specified, only one record will be fetched.
   * columns(optional): Which columns will be in the response result.  If not specified, all columns will be used.
   * params: The query condition parameters.
     key: The column name.
@@ -112,7 +187,6 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   Example request body:
   ```javascript
   {
-    "num": "1",
     "columns": ["DocNum", "CardName", "DocDate", "Address", "Address2"],
     "params": {
       "DocDate": {
@@ -138,15 +212,15 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example script by curl:
 
-  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/orders -d '{"num": "1", "columns": ["DocNum", "CardName", "DocDate", "Address", "Address2"], "params": {"DocDate": {"op": ">=","value": "2016-01-01"}}}'*
+  *curl -u admin:secret -X PUT -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/orders/fetch?num=1 -d '{"columns": ["DocNum", "CardName", "DocDate", "Address", "Address2"], "params": {"DocDate": {"op": ">=","value": "2016-01-01"}}}'*
 
-#### OrderAPI
+#### OrdersAPI
   ```
-  POST /v1/order
+  POST /v1/orders/insert
   ```
-  Insert an order into SAP B1.
+  Insert orders into SAP B1.
 
-  Request Parameters:
+  Request Parameters for each order:
   * doc_due_date: Order due date.
   * card_code: Customer code.
   * expenses_freightname(optional): Freightname for shipping.
@@ -187,67 +261,112 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example request body:
   ```javascript
-  {
-    "doc_due_date": "2016-12-12",
-    "card_code": "C20000",
-    "expenses_freightname": "Freight",
-    "expenses_linetotal": "2",
-    "expenses_taxcode": "Exempt",
-    "transport_name": "Fedex ON",
-    "payment_method": "Incoming BT 02",
-    "fe_order_id": "00000002",
-    "billto_firstname": "John",
-    "billto_lastname": "Smith",
-    "billto_email": "john.smith@xyz.net",
-    "billto_companyname": "",
-    "billto_city": "Los Angeles",
-    "billto_country": "US",
-    "billto_county": "",
-    "billto_state": "CA",
-    "billto_address": "3650 McClintock Avenue",
-    "billto_zipcode": "90089",
-    "billto_telephone": "(213) 740-8674",
-    "shipto_firstname": "John",
-    "shipto_lastname": "Smith",
-    "shipto_companyname": "",
-    "shipto_city": "Los Angeles",
-    "shipto_country": "US",
-    "shipto_county": "",
-    "shipto_state": "CA",
-    "shipto_address": "3650 McClintock Avenue",
-    "shipto_zipcode": "90089",
-    "shipto_telephone": "(213) 740-8674",
-    "items": [
-      {
-        "itemcode": "I00001",
-        "quantity": "10",
-        "price": "12",
-        "taxcode": "CA",
-        "linetotal": "120"
-      }
-    ]
-  }
+  [
+    {
+      "doc_due_date": "2016-12-12",
+      "card_code": "C20000",
+      "expenses_freightname": "Freight",
+      "expenses_linetotal": "2",
+      "expenses_taxcode": "Exempt",
+      "transport_name": "Fedex ON",
+      "payment_method": "Incoming BT 02",
+      "fe_order_id": "00000002",
+      "billto_firstname": "John",
+      "billto_lastname": "Smith",
+      "billto_email": "john.smith@xyz.net",
+      "billto_companyname": "",
+      "billto_city": "Los Angeles",
+      "billto_country": "US",
+      "billto_county": "",
+      "billto_state": "CA",
+      "billto_address": "3650 McClintock Avenue",
+      "billto_zipcode": "90089",
+      "billto_telephone": "(213) 740-8674",
+      "shipto_firstname": "John",
+      "shipto_lastname": "Smith",
+      "shipto_companyname": "",
+      "shipto_city": "Los Angeles",
+      "shipto_country": "US",
+      "shipto_county": "",
+      "shipto_state": "CA",
+      "shipto_address": "3650 McClintock Avenue",
+      "shipto_zipcode": "90089",
+      "shipto_telephone": "(213) 740-8674",
+      "items": [
+        {
+          "itemcode": "I00001",
+          "quantity": "10",
+          "price": "12",
+          "taxcode": "CA",
+          "linetotal": "120"
+        }
+      ]
+    },
+  ]
   ```
 
   Example response body:
   ```javascript
-  {
-    "bo_order_id": "536"
-  }
+  [
+    {
+      "doc_due_date": "2016-12-12",
+      "shipto_telephone": "(213) 740-8674",
+      "payment_method": "Incoming BT 02",
+      "shipto_address": "3650 McClintock Avenue",
+      "fe_order_id": "00000002",
+      "shipto_city": "Los Angeles",
+      "transport_name": "Fedex ON",
+      "billto_companyname": "",
+      "shipto_state": "CA",
+      "shipto_firstname": "John",
+      "tx_status": "S",
+      "shipto_zipcode": "90089",
+      "bo_order_id": "536",
+      "expenses_taxcode": "Exempt",
+      "shipto_lastname": "Smith",
+      "expenses_linetotal": "2",
+      "billto_email": "john.smith@xyz.net",
+      "card_code": "C20000",
+      "expenses_freightname": "Freight",
+      "billto_country": "US",
+      "billto_state": "CA",
+      "billto_lastname": "Smith",
+      "billto_zipcode": "90089",
+      "billto_address": "3650 McClintock Avenue",
+      "billto_county": "",
+      "items": [
+        {
+          "linetotal": "120",
+          "itemcode": "I00001",
+          "taxcode": "CA",
+          "price": "12",
+          "quantity": "10"
+        }
+      ],
+      "shipto_county": "",
+      "shipto_companyname": "",
+      "shipto_country": "US",
+      "billto_city": "Los Angeles",
+      "billto_telephone": "(213) 740-8674",
+      "billto_firstname": "John"
+    }
+  ]
   ```
 
   Example script by curl:
 
-  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/order -d '{"doc_due_date": "2016-12-12", "card_code": "C20000", "expenses_freightname": "Freight", "expenses_linetotal": "2", "expenses_taxcode": "Exempt", "transport_name": "Fedex ON", "payment_method": "Incoming BT 02", "fe_order_id": "00000002", "billto_firstname": "John", "billto_lastname": "Smith", "billto_email": "john.smith@xyz.net", "billto_companyname": "", "billto_city": "Los Angeles", "billto_country": "US", "billto_county": "", "billto_state": "CA", "billto_address": "3650 McClintock Avenue", "billto_zipcode": "90089", "billto_telephone": "(213) 740-8674", "shipto_firstname": "John", "shipto_lastname": "Smith", "shipto_companyname": "", "shipto_city": "Los Angeles", "shipto_country": "US", "shipto_county": "", "shipto_state": "CA", "shipto_address": "3650 McClintock Avenue", "shipto_zipcode": "90089", "shipto_telephone": "(213) 740-8674", "items": [{"itemcode": "I00001", "quantity": "10", "price": "12", "taxcode": "CA", "linetotal": "120"}]}'*
+  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/orders/insert -d '[{"doc_due_date": "2016-12-12", "card_code": "C20000", "expenses_freightname": "Freight", "expenses_linetotal": "2", "expenses_taxcode": "Exempt", "transport_name": "Fedex ON", "payment_method": "Incoming BT 02", "fe_order_id": "00000002", "billto_firstname": "John", "billto_lastname": "Smith", "billto_email": "john.smith@xyz.net", "billto_companyname": "", "billto_city": "Los Angeles", "billto_country": "US", "billto_county": "", "billto_state": "CA", "billto_address": "3650 McClintock Avenue", "billto_zipcode": "90089", "billto_telephone": "(213) 740-8674", "shipto_firstname": "John", "shipto_lastname": "Smith", "shipto_companyname": "", "shipto_city": "Los Angeles", "shipto_country": "US", "shipto_county": "", "shipto_state": "CA", "shipto_address": "3650 McClintock Avenue", "shipto_zipcode": "90089", "shipto_telephone": "(213) 740-8674", "items": [{"itemcode": "I00001", "quantity": "10", "price": "12", "taxcode": "CA", "linetotal": "120"}]}]'*
 
 #### ContactsAPI
   ```
-  POST /v1/contacts
+  PUT /v1/contacts/fetch?num=1
   ```
   Retrieve contacts under a business partner (CardCode) with conditions.
 
+  Query Parameters:
+  * num: The amount of the records will be contained in the result.
+
   Request Parameters:
-  * num(optional): The amount of the records will be contained in the result.  IF not specified, only one record will be fetched.
   * columns(optional): Which columns will be in the response result.  If not specified, all columns will be used.
   * card_code: The CardCode of a business partner.
   * contact(required): contact{} The query condition parameters.
@@ -258,7 +377,6 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   Example request body:
   ```javascript
   {
-    "num": "1",
     "columns": ["cntctcode", "Name"],
     "card_code": "C20000",
     "contact": {
@@ -281,17 +399,17 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example script by curl:
 
-  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/contacts -d '{"num": "1", "columns": ["cntctcode", "Name"], "card_code": "C20000", "contact": {"FirstName": "John", "LastName": "Smith", "E_MailL": "john.smith@xyz.net"}}'*
+  *curl -u admin:secret -X PUT -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/contacts/fetch?num=1 -d '{"columns": ["cntctcode", "Name"], "card_code": "C20000", "contact": {"FirstName": "John", "LastName": "Smith", "E_MailL": "john.smith@xyz.net"}}'*
 
 #### ContactsAPI
   ```
-  POST /v1/contact
+  POST /v1/contacts/insert
   ```
-  Insert a contact under a business partner (CardCode) with conditions.
+  Insert contacts under a business partner (CardCode) with conditions.
 
-  Request Parameters:
+  Request Parameters for each contact:
   * card_code(required): The CardCode of a business partner.
-  * contact(required): contact{}
+  * contacts(required)[]:
     - FirstName: First name.
     - LastName: Last name.
     - Tel1: Telephone.
@@ -300,34 +418,45 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example request body:
   ```javascript
-  {
-    "card_code": "C20000",
-    "contact": {
-      "FirstName": "Joe",
-      "LastName": "Brown",
-      "Tel1": "(213) 345-6789",
-      "E_MailL": "joe.brown@xzy.net",
-      "Address": "1st st. Los Angles, CA 90089"
+  [
+    {
+      "card_code": "C20000",
+      "contacts": [
+        {
+          "FirstName": "Joe",
+          "LastName": "Brown",
+          "Tel1": "(213) 345-6789",
+          "E_MailL": "joe.brown@xzy.net",
+          "Address": "1st st. Los Angles, CA 90089"
+        }
+      ]
     }
-  }
+  ]
   ```
 
   Example response body:
   ```javascript
-  {
-    "contact_code": "61"
-  }
+  [
+    {
+      "Tel1": "(213) 345-6789",
+      "contact_code": "63",
+      "FirstName": "Joe1",
+      "LastName": "Brown",
+      "E_MailL": "joe.brown@xzy.net",
+      "Address": "1st st. Los Angles, CA 90089"
+    }
+  ]
   ```
 
   Example script by curl:
 
-  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/contact -d '{"card_code": "C20000", "contact": {"FirstName": "Joe1", "LastName": "Brown", "Tel1": "(213) 345-6789", "E_MailL": "joe.brown@xzy.net", "Address": "1st st. Los Angles, CA 90089"}}'*
+  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/contacts/insert -d '{"card_code": "C20000", "contacts": [{"FirstName": "Joe1", "LastName": "Brown", "Tel1": "(213) 345-6789", "E_MailL": "joe.brown@xzy.net", "Address": "1st st. Los Angles, CA 90089"}]}'*
 
 #### OrderCancelAPI
   ```
-  POST /v1/cancelorder
+  POST /v1/orders/cancel
   ```
-  Cancel an order by B1 order number.
+  Cancel orders by frontend order numbers.
 
   Request Parameters:
   * fe_order_id_udf(optional): Front end order id UDF.
@@ -335,29 +464,37 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example request body:
   ```javascript
-  {
-    "fe_order_id": "000000009"
-  }
+  [
+    {
+      "fe_order_id": "000000011"
+    }
+  ]
   ```
 
   Example response body:
   ```javascript
-  {
-    "bo_order_id": "535"
-  }
+  [
+    {
+      "tx_status": "X",
+      "fe_order_id": "000000011",
+      "bo_order_id": "540"
+    }
+  ]
   ```
 
   Example script by curl:
 
-  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/cancelorder -d '{"fe_order_id": "00000002"}'*
+  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/orders/cancel -d '[{"fe_order_id": "000000011"}]'*
 
 #### ShipmentsAPI
   ```
-  POST /v1/shipments
+  PUT /v1/shipments/fetch?num=1
   ```
 
+  Query Parameters:
+  * num: The amount of the records will be contained in the result.
+
   Request Parameters:
-  * num(optional): The amount of the records will be contained in the result.  IF not specified, only one record will be fetched.
   * columns(optional): Which columns will be in the response result.  If not specified, all columns will be used.
   * params: The query condition parameters.
     key: The column name.
@@ -368,7 +505,6 @@ The python flask application is top on the SAP B1 DI API interface to provide th
   Example request body:
   ```javascript
   {
-    "num": "1",
     "columns": [ "DocDueDate", "CardName"],
     "params": {
       "DocDate": {
@@ -405,7 +541,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example script by curl:
 
-  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.148:5000/v1/shipments -d '{"num": "1", "columns": [ "DocDueDate", "CardName"], "params": {"DocDate": {"op": ">=", "value": "2015-01-01"}}, "itemcolumns": ["BaseDocNum", "Price", "ShipDate"]}'*
+  *curl -u admin:secret -X PUT -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/shipments/fetch?num=1 -d '{"columns": [ "DocDueDate", "CardName"], "params": {"DocDate": {"op": ">=", "value": "2015-01-01"}}, "itemcolumns": ["BaseDocNum", "Price", "ShipDate"]}'*
 
 ## Related Articles
 

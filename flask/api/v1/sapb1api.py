@@ -15,32 +15,80 @@ class InfoAPI(Resource):
         info = sapb1Adaptor.info()
         return info, 201
 
+class CodeAPI(Resource):
+    decorators = [auth.login_required]
+
+    def __init__(self):
+        super(CodeAPI, self).__init__()
+
+    def get(self):
+        type = request.args.get("type")
+        codes = []
+        if type == "ExpnsName":
+            codes = sapb1Adaptor.getExpnsNames()
+        elif type == "TrnspName":
+            codes = sapb1Adaptor.getTrnspNames()
+        elif type == "PayMethCod":
+            codes = sapb1Adaptor.getPayMethCods()
+        elif type == "TaxCode":
+            codes = sapb1Adaptor.getTaxCodes()
+        return codes, 201
+
 class OrdersAPI(Resource):
     decorators = [auth.login_required]
 
     def __init__(self):
         super(OrdersAPI, self).__init__()
 
-    def post(self):
-        data = request.get_json(force=True)
-        num = data['num'] if 'num' in data.keys() else 1
-        columns = data['columns'] if 'columns' in data.keys() else {}
-        params = data['params']
-        orders = sapb1Adaptor.getOrders(num=num, columns=columns, params=params)
-        return orders, 201
-
-# Insert an order into B1.
-class OrderAPI(Resource):
-    decorators = [auth.login_required]
-
-    def __init__(self):
-        super(OrderAPI, self).__init__()
-
-    def post(self):
-        order = request.get_json(force=True)
+    def put(self, function):
         try:
-            boOrderId = sapb1Adaptor.insertOrder(order)
-            return {'bo_order_id': boOrderId}, 201
+            if function == "fetch":
+                _num = request.args.get("num")
+                _num = 100 if _num is None else int(_num)
+                num = 100 if _num > 100 else _num
+                data = request.get_json(force=True)
+                columns = data['columns'] if 'columns' in data.keys() else {}
+                params = data['params']
+                orders = sapb1Adaptor.getOrders(num=num, columns=columns, params=params)
+                return orders, 201
+            else:
+                log = "No such function({0})!!!".format(function)
+                current_app.logger.error(log)
+                raise Exception(log)
+        except Exception as e:
+            log = traceback.format_exc()
+            current_app.logger.exception(e)
+            return log, 501
+
+    def post(self, function):
+        try:
+            orders = request.get_json(force=True)
+            if function == "insert":
+                for order in orders:
+                    try:
+                        order["bo_order_id"] = sapb1Adaptor.insertOrder(order)
+                        order["tx_status"] = 'S'
+                    except Exception as e:
+                        log = traceback.format_exc()
+                        order["bo_order_id"] = "####"
+                        order["tx_status"] = 'F'
+                        order["tx_note"] = log
+                        current_app.logger.exception(e)
+            elif function == "cancel":
+                for order in orders:
+                    try:
+                        order["bo_order_id"] = sapb1Adaptor.cancelOrder(order)
+                        order["tx_status"] = 'X'
+                    except Exception as e:
+                        log = traceback.format_exc()
+                        order["tx_status"] = 'F'
+                        order["tx_note"] = log
+                        current_app.logger.exception(e)
+            else:
+                log = "No such function({0})!!!".format(function)
+                current_app.logger.error(log)
+                raise Exception(log)
+            return orders, 201
         except Exception as e:
             log = traceback.format_exc()
             current_app.logger.exception(e)
@@ -53,46 +101,41 @@ class ContactsAPI(Resource):
     def __init__(self):
         super(ContactsAPI, self).__init__()
 
-    def post(self):
-        data = request.get_json(force=True)
-        num = data['num'] if 'num' in data.keys() else 1
-        columns = data['columns'] if 'columns' in data.keys() else {}
-        cardCode = data['card_code']
-        contact = data['contact']
-        contacts = sapb1Adaptor.getContacts(num=num, columns=columns, cardCode=cardCode, contact=contact)
-        return contacts, 201
-
-# Insert contact by CardCode.
-class ContactAPI(Resource):
-    decorators = [auth.login_required]
-
-    def __init__(self):
-        super(ContactAPI, self).__init__()
-
-    def post(self):
-        data = request.get_json(force=True)
-        cardCode = data['card_code']
-        contact = data['contact']
+    def put(self, function):
         try:
-            contactCode = sapb1Adaptor.insertContact(cardCode, contact)
-            return {"contact_code": contactCode}, 201
+            if function == "fetch":
+                _num = request.args.get("num")
+                _num = 100 if _num is None else int(_num)
+                num = 100 if _num > 100 else _num
+                data = request.get_json(force=True)
+                columns = data['columns'] if 'columns' in data.keys() else {}
+                cardCode = data['card_code']
+                contact = data['contact']
+                contacts = sapb1Adaptor.getContacts(num=num, columns=columns, cardCode=cardCode, contact=contact)
+                return contacts, 201
+            else:
+                log = "No such function({0})!!!".format(function)
+                current_app.logger.error(log)
+                raise Exception(log)
         except Exception as e:
             log = traceback.format_exc()
             current_app.logger.exception(e)
             return log, 501
 
-# Cancel an order in B1.
-class OrderCancelAPI(Resource):
-    decorators = [auth.login_required]
-
-    def __init__(self):
-        super(OrderCancelAPI, self).__init__()
-
-    def post(self):
-        order = request.get_json(force=True)
+    def post(self, function):
         try:
-            boOrderId = sapb1Adaptor.cancelOrder(order)
-            return {'bo_order_id': boOrderId}, 201
+            if function == "insert":
+                data = request.get_json(force=True)
+                cardCode = data['card_code']
+                contacts = data['contacts']
+                for contact in contacts:
+                    contactCode = sapb1Adaptor.insertContact(cardCode, contact)
+                    contact["contact_code"] = contactCode
+                return contacts, 201
+            else:
+                log = "No such function({0})!!!".format(function)
+                current_app.logger.error(log)
+                raise Exception(log)
         except Exception as e:
             log = traceback.format_exc()
             current_app.logger.exception(e)
@@ -105,11 +148,23 @@ class ShipmentsAPI(Resource):
     def __init__(self):
         super(ShipmentsAPI, self).__init__()
 
-    def post(self):
-        data = request.get_json(force=True)
-        num = data['num'] if 'num' in data.keys() else 100
-        columns = data['columns'] if 'columns' in data.keys() else {}
-        itemColumns = data['itemcolumns'] if 'itemcolumns' in data.keys() else {}
-        params = data['params']
-        shipments = sapb1Adaptor.getShipments(num=num, columns=columns, params=params, itemColumns=itemColumns)
-        return shipments, 201
+    def put(self, function):
+        try:
+            if function == "fetch":
+                _num = request.args.get("num")
+                _num = 100 if _num is None else int(_num)
+                num = 100 if _num > 100 else _num
+                data = request.get_json(force=True)
+                columns = data['columns'] if 'columns' in data.keys() else {}
+                itemColumns = data['itemcolumns'] if 'itemcolumns' in data.keys() else {}
+                params = data['params']
+                shipments = sapb1Adaptor.getShipments(num=num, columns=columns, params=params, itemColumns=itemColumns)
+                return shipments, 201
+            else:
+                log = "No such function({0})!!!".format(function)
+                current_app.logger.error(log)
+                raise Exception(log)
+        except Exception as e:
+            log = traceback.format_exc()
+            current_app.logger.exception(e)
+            return log, 501

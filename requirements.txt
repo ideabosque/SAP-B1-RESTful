@@ -1,8 +1,9 @@
-Flask==0.11.1
-Jinja2==2.8
-Werkzeug==0.11.10
-Flask-Script==2.0.5
-Flask-RESTful==0.3.5
-Flask-HTTPAuth==3.1.2
-Flask-SAPB1==0.0.1
-pymssql==2.1.1
+Flask
+Jinja2
+Werkzeug
+Flask-Script
+Flask-RESTful
+Flask-HTTPAuth
+Flask-SAPB1>=0.0.2
+pymssql
+CherryPy
