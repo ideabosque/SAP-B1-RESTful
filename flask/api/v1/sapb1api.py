@@ -47,7 +47,7 @@ class OrdersAPI(Resource):
                 _num = 100 if _num is None else int(_num)
                 num = 100 if _num > 100 else _num
                 data = request.get_json(force=True)
-                columns = data['columns'] if 'columns' in data.keys() else {}
+                columns = data['columns'] if 'columns' in list(data.keys()) else {}
                 params = data['params']
                 orders = sapb1Adaptor.getOrders(num=num, columns=columns, params=params)
                 return orders, 201
@@ -108,7 +108,7 @@ class ContactsAPI(Resource):
                 _num = 100 if _num is None else int(_num)
                 num = 100 if _num > 100 else _num
                 data = request.get_json(force=True)
-                columns = data['columns'] if 'columns' in data.keys() else {}
+                columns = data['columns'] if 'columns' in list(data.keys()) else {}
                 cardCode = data['card_code']
                 contact = data['contact']
                 contacts = sapb1Adaptor.getContacts(num=num, columns=columns, cardCode=cardCode, contact=contact)
@@ -155,8 +155,8 @@ class ShipmentsAPI(Resource):
                 _num = 100 if _num is None else int(_num)
                 num = 100 if _num > 100 else _num
                 data = request.get_json(force=True)
-                columns = data['columns'] if 'columns' in data.keys() else {}
-                itemColumns = data['itemcolumns'] if 'itemcolumns' in data.keys() else {}
+                columns = data['columns'] if 'columns' in list(data.keys()) else {}
+                itemColumns = data['itemcolumns'] if 'itemcolumns' in list(data.keys()) else {}
                 params = data['params']
                 shipments = sapb1Adaptor.getShipments(num=num, columns=columns, params=params, itemColumns=itemColumns)
                 return shipments, 201
