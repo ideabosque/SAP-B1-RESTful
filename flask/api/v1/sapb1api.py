@@ -1,26 +1,26 @@
 from flask import request, current_app
-from ..auth import auth
 from ..app import sapb1Adaptor
+from flask_jwt import jwt_required, current_identity
 from flask_restful import Resource
 import json
 import traceback
 
 class InfoAPI(Resource):
-    decorators = [auth.login_required]
 
     def __init__(self):
         super(InfoAPI, self).__init__()
 
+    @jwt_required()
     def get(self):
         info = sapb1Adaptor.info()
         return info, 201
 
 class CodeAPI(Resource):
-    decorators = [auth.login_required]
 
     def __init__(self):
         super(CodeAPI, self).__init__()
 
+    @jwt_required()
     def get(self):
         type = request.args.get("type")
         codes = []
@@ -35,11 +35,11 @@ class CodeAPI(Resource):
         return codes, 201
 
 class OrdersAPI(Resource):
-    decorators = [auth.login_required]
 
     def __init__(self):
         super(OrdersAPI, self).__init__()
 
+    @jwt_required()
     def put(self, function):
         try:
             if function == "fetch":
@@ -60,6 +60,7 @@ class OrdersAPI(Resource):
             current_app.logger.exception(e)
             return log, 501
 
+    @jwt_required()
     def post(self, function):
         try:
             orders = request.get_json(force=True)
@@ -96,11 +97,11 @@ class OrdersAPI(Resource):
 
 # Retrieve contacts by CardCode.
 class ContactsAPI(Resource):
-    decorators = [auth.login_required]
 
     def __init__(self):
         super(ContactsAPI, self).__init__()
 
+    @jwt_required()
     def put(self, function):
         try:
             if function == "fetch":
@@ -122,6 +123,7 @@ class ContactsAPI(Resource):
             current_app.logger.exception(e)
             return log, 501
 
+    @jwt_required()
     def post(self, function):
         try:
             if function == "insert":
@@ -143,11 +145,11 @@ class ContactsAPI(Resource):
 
 #Retrive Shipments
 class ShipmentsAPI(Resource):
-    decorators = [auth.login_required]
 
     def __init__(self):
         super(ShipmentsAPI, self).__init__()
 
+    @jwt_required()
     def put(self, function):
         try:
             if function == "fetch":

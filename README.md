@@ -61,8 +61,6 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 ##### Configuration
   We could configure the service at "flask/config.py".
   ```
-  USERNAME = 'admin'  # The RESTful basic username.
-  PASSWORD = 'secret'  # The RESTful basic password.
   LOGGING_LOCATION = 'sapb1adaptor.log'  # The RESTful log file.
   LOGGING_LEVEL = logging.INFO    # The log level.
   LOGGING_FORMAT = '%(asctime)s %(levelname)-8s %(message)s'  # The log format.
@@ -132,6 +130,27 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
 ## API
 
+#### AuthAPI (JWT)
+  ```
+  POST /v1/auth
+  ```
+  Return the JWT token.  You have to request the JWT token first before sending the other API calls.
+
+  Example response body:
+  ```bash
+  {
+    "access_token": "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+  }
+  ```
+
+  Example script by curl:
+
+  *curl -X POST http://192.168.44.151:5000/auth -H 'content-type: application/json' \
+  -d '{
+    "username": "user1",
+    "password": "abcxyz"
+  }'*
+
 #### InfoAPI
   ```
   GET /v1/info
@@ -150,7 +169,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example script by curl:
 
-  *curl -u admin:secret -X GET -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/info*
+  *curl -H 'authorization: JWT XXXXXXXXXXXXXXXXXXXXXXXXXXXX' -X GET -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/info*
 
 #### CodeAPI
   ```
@@ -171,7 +190,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example script by curl:
 
-  *curl -u admin:secret -X GET -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/code?type=ExpnsName*
+  *curl -H 'authorization: JWT XXXXXXXXXXXXXXXXXXXXXXXXXXXX' -X GET -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/code?type=ExpnsName*
 
 #### OrdersAPI
   ```
@@ -217,7 +236,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example script by curl:
 
-  *curl -u admin:secret -X PUT -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/orders/fetch?num=1 -d '{"columns": ["DocNum", "CardName", "DocDate", "Address", "Address2"], "params": {"DocDate": {"op": ">=","value": "2016-01-01"}}}'*
+  *curl -H 'authorization: JWT XXXXXXXXXXXXXXXXXXXXXXXXXXXX' -X PUT -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/orders/fetch?num=1 -d '{"columns": ["DocNum", "CardName", "DocDate", "Address", "Address2"], "params": {"DocDate": {"op": ">=","value": "2016-01-01"}}}'*
 
 #### OrdersAPI
   ```
@@ -360,7 +379,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example script by curl:
 
-  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/orders/insert -d '[{"doc_due_date": "2016-12-12", "card_code": "C20000", "expenses_freightname": "Freight", "expenses_linetotal": "2", "expenses_taxcode": "Exempt", "transport_name": "Fedex ON", "payment_method": "Incoming BT 02", "fe_order_id": "00000002", "billto_firstname": "John", "billto_lastname": "Smith", "billto_email": "john.smith@xyz.net", "billto_companyname": "", "billto_city": "Los Angeles", "billto_country": "US", "billto_county": "", "billto_state": "CA", "billto_address": "3650 McClintock Avenue", "billto_zipcode": "90089", "billto_telephone": "(213) 740-8674", "shipto_firstname": "John", "shipto_lastname": "Smith", "shipto_companyname": "", "shipto_city": "Los Angeles", "shipto_country": "US", "shipto_county": "", "shipto_state": "CA", "shipto_address": "3650 McClintock Avenue", "shipto_zipcode": "90089", "shipto_telephone": "(213) 740-8674", "items": [{"itemcode": "I00001", "quantity": "10", "price": "12", "taxcode": "CA", "linetotal": "120"}]}]'*
+  *curl -H 'authorization: JWT XXXXXXXXXXXXXXXXXXXXXXXXXXXX' -X POST -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/orders/insert -d '[{"doc_due_date": "2016-12-12", "card_code": "C20000", "expenses_freightname": "Freight", "expenses_linetotal": "2", "expenses_taxcode": "Exempt", "transport_name": "Fedex ON", "payment_method": "Incoming BT 02", "fe_order_id": "00000002", "billto_firstname": "John", "billto_lastname": "Smith", "billto_email": "john.smith@xyz.net", "billto_companyname": "", "billto_city": "Los Angeles", "billto_country": "US", "billto_county": "", "billto_state": "CA", "billto_address": "3650 McClintock Avenue", "billto_zipcode": "90089", "billto_telephone": "(213) 740-8674", "shipto_firstname": "John", "shipto_lastname": "Smith", "shipto_companyname": "", "shipto_city": "Los Angeles", "shipto_country": "US", "shipto_county": "", "shipto_state": "CA", "shipto_address": "3650 McClintock Avenue", "shipto_zipcode": "90089", "shipto_telephone": "(213) 740-8674", "items": [{"itemcode": "I00001", "quantity": "10", "price": "12", "taxcode": "CA", "linetotal": "120"}]}]'*
 
 #### ContactsAPI
   ```
@@ -404,7 +423,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example script by curl:
 
-  *curl -u admin:secret -X PUT -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/contacts/fetch?num=1 -d '{"columns": ["cntctcode", "Name"], "card_code": "C20000", "contact": {"FirstName": "John", "LastName": "Smith", "E_MailL": "john.smith@xyz.net"}}'*
+  *curl -H 'authorization: JWT XXXXXXXXXXXXXXXXXXXXXXXXXXXX' -X PUT -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/contacts/fetch?num=1 -d '{"columns": ["cntctcode", "Name"], "card_code": "C20000", "contact": {"FirstName": "John", "LastName": "Smith", "E_MailL": "john.smith@xyz.net"}}'*
 
 #### ContactsAPI
   ```
@@ -455,7 +474,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example script by curl:
 
-  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/contacts/insert -d '{"card_code": "C20000", "contacts": [{"FirstName": "Joe1", "LastName": "Brown", "Tel1": "(213) 345-6789", "E_MailL": "joe.brown@xzy.net", "Address": "1st st. Los Angles, CA 90089"}]}'*
+  *curl -H 'authorization: JWT XXXXXXXXXXXXXXXXXXXXXXXXXXXX' -X POST -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/contacts/insert -d '{"card_code": "C20000", "contacts": [{"FirstName": "Joe1", "LastName": "Brown", "Tel1": "(213) 345-6789", "E_MailL": "joe.brown@xzy.net", "Address": "1st st. Los Angles, CA 90089"}]}'*
 
 #### OrderCancelAPI
   ```
@@ -489,7 +508,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example script by curl:
 
-  *curl -u admin:secret -X POST -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/orders/cancel -d '[{"fe_order_id": "000000011"}]'*
+  *curl -H 'authorization: JWT XXXXXXXXXXXXXXXXXXXXXXXXXXXX' -X POST -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/orders/cancel -d '[{"fe_order_id": "000000011"}]'*
 
 #### ShipmentsAPI
   ```
@@ -546,7 +565,7 @@ The python flask application is top on the SAP B1 DI API interface to provide th
 
   Example script by curl:
 
-  *curl -u admin:secret -X PUT -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/shipments/fetch?num=1 -d '{"columns": [ "DocDueDate", "CardName"], "params": {"DocDate": {"op": ">=", "value": "2015-01-01"}}, "itemcolumns": ["BaseDocNum", "Price", "ShipDate"]}'*
+  *curl -H 'authorization: JWT XXXXXXXXXXXXXXXXXXXXXXXXXXXX' -X PUT -H 'Content-Type: application/json' http://192.168.44.151:5000/v1/shipments/fetch?num=1 -d '{"columns": [ "DocDueDate", "CardName"], "params": {"DocDate": {"op": ">=", "value": "2015-01-01"}}, "itemcolumns": ["BaseDocNum", "Price", "ShipDate"]}'*
 
 ## Related Articles
 
