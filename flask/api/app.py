@@ -1,6 +1,5 @@
 import os
 from flask import Flask
-from .auth import auth
 from .errors import not_found, not_allowed
 from flask_sapb1 import SAPB1Adaptor
 from flask_jwt import JWT
@@ -62,7 +61,6 @@ def create_app(config_module=None):
     app.logger.setLevel(app.config['LOGGING_LEVEL'])
 
     @app.errorhandler(404)
-    @auth.login_required
     def not_found_error(e):
         return not_found('item not found')
 
